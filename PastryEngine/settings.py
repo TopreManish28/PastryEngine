@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',            # DRF and Token Authentication
     'rest_framework.authtoken',  # For Token Authentication
     'login_auth',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'PastryEngine.urls'
@@ -136,3 +138,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',  # Default permission for views
     ),
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+   'http://localhost:3000',
+]
