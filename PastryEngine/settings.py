@@ -136,3 +136,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',  # Default permission for views
     ),
 }
+
+AUTHENTICATION_BACKENDS = [
+    'login_auth.auth_backend.EmailBackend',  # Custom backend for email login
+    'django.contrib.auth.backends.ModelBackend',  # Default username login
+]
+
