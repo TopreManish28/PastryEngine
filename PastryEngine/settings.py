@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-r@7-p&0(qmsito$9178%g_-(fbsxe0@5m3gr-bn1p@*x)%sms)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,17 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',            # DRF and Token Authentication
     'rest_framework.authtoken',  # For Token Authentication
-    'login_auth',
+    'login_auth',                # Our authentication app
+    'corsheaders',               # Allows React to communicate with Django
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',    # This enforces CSRF protection
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',       # CORS middleware
 ]
 
 ROOT_URLCONF = 'PastryEngine.urls'
@@ -141,4 +143,18 @@ AUTHENTICATION_BACKENDS = [
     'login_auth.auth_backend.EmailBackend',  # Custom backend for email login
     'django.contrib.auth.backends.ModelBackend',  # Default username login
 ]
+
+# Allow all frontend requests (For development)
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Allow credentials (cookies)
+CORS_ALLOW_CREDENTIALS = True
+
+# React Frontend URL
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+# Allow frontend to communicate with backend
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
 

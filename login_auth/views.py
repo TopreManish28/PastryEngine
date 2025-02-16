@@ -1,3 +1,5 @@
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView
 from django.contrib.auth.models import User
@@ -11,6 +13,7 @@ from rest_framework import status
 # Create your views here.
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(CreateAPIView):
     """ Handles User Registration """
     queryset = User.objects.all()
@@ -20,7 +23,9 @@ class RegisterView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
         # Custom behavior after user is created
-        response.data = {'message': 'User registered successfully. Please check your email to verify your account.'}
+        response.data = {
+            'message': 'User registered successfully. Please check your email to verify your account.',
+            'user': response.data}
         return response
 
 
