@@ -3,12 +3,12 @@ from rest_framework import serializers
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ['username', 'first_name', 'last_name', 'email', 'password']
 
-    @staticmethod
     def validate_email(self, value):
         """ Ensure email is unique """
         if User.objects.filter(email=value).exists():
@@ -16,6 +16,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        """Create user with hashed password"""
         user = User.objects.create_user(**validated_data)
         return user
 
@@ -23,4 +24,3 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()  # This can be an email if using EmailBackend
     password = serializers.CharField(write_only=True)  # Hide password in responses
-
