@@ -143,3 +143,8 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
    'http://localhost:3000',
 ]
+AUTHENTICATION_BACKENDS = [
+    'login_auth.auth_backend.EmailBackend',  # Custom backend for email login
+    'django.contrib.auth.backends.ModelBackend',  # Default username login
+]
+

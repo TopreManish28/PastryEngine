@@ -9,6 +9,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
+    @staticmethod
     def validate_email(self, value):
         """ Ensure email is unique """
         if User.objects.filter(email=value).exists():
@@ -24,3 +25,9 @@ class StudentSerializer(serializers.ModelSerializer):
   class Meta:
     model = Student
     fields = ['id', 'stuname', 'email']
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()  # This can be an email if using EmailBackend
+    password = serializers.CharField(write_only=True)  # Hide password in responses
+
